@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resume-parser"
+version = "0.1.0"
+description = "Pluggable resume parsing framework"
+requires-python = ">=3.11"
+dependencies = [
+  "python-docx>=1.0",
+  "pdfminer.six>=20221105",
+]
+
+[project.scripts]
+resume-parser = "app.main:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "pylint",
+  "mypy",
+  "reportlab",
+]
+llm = [
+  "openai>=1.0",
+]
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.pylint.main]
+py-version = "3.11"
+jobs = 0
+recursive = true
+ignore-paths = [
+  "^\\.venv/",
+  "^venv/",
+  "^build/",
+  "^dist/",
+  "^\\.mypy_cache/",
+  "^\\.pytest_cache/",
+]
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pylint.design]
+max-args = 8
+max-locals = 20
+max-branches = 15
+min-public-methods = 1
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_ignores = true
+no_implicit_optional = true
+disallow_untyped_defs = true
+pretty = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
