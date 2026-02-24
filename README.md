@@ -1,13 +1,13 @@
 # Resume Parser Framework
 
-This repository contains a take-home submission for a resume parsing framework with clean OOP architecture and strict separation of concerns.
+This repository contains a take-home submission for a resume parsing framework with a clean, object-oriented architecture and strict separation of concerns.
 
-The system parses `.pdf` and `.docx` resumes and returns structured output as:
+The system parses `.pdf` and `.docx` resumes and returns structured output:
 - `name: str | None`
 - `email: str | None`
 - `skills: list[str]`
 
-For detailed design decisions and architecture diagrams, see `Architecture.md`.
+Detailed design decisions, tradeoffs, and diagrams are documented in `Architecture.md`.
 
 ## Implemented Scope
 
@@ -27,15 +27,16 @@ For detailed design decisions and architecture diagrams, see `Architecture.md`.
 - Python `3.11+`
 - macOS/Linux shell
 
-## Setup
+## Setup and Verification
 
 ```bash
-make venv
 make dev
 source .venv/bin/activate
 ```
 
-Then run full quality checks:
+`make dev` creates `.venv` (if missing) and installs all project dependencies in that environment.
+
+Run the full quality gate:
 
 ```bash
 make check
@@ -69,21 +70,21 @@ resume-parser --file resumes/CV_Taiseem.pdf --skills-mode llm
 resume-parser --file resumes/CV_Taiseem.pdf --skills-mode fake --debug
 ```
 
-Exit codes:
+Exit Codes:
 - `0`: success
 - `1`: runtime error (parser/extraction/config)
 - `2`: argument/usage error
 
 ## Debug Mode
 
-The CLI includes a `--debug` flag for troubleshooting parser/extractor orchestration.
+The CLI provides a `--debug` flag for troubleshooting parser and extraction orchestration.
 
 Behavior in debug mode:
 - application logs (`app.*`) are set to `DEBUG`
-- noisy third-party internals are still suppressed (`pdfminer`, `httpx`, `openai` stay at warning level)
+- verbose third-party internals remain suppressed (`pdfminer`, `httpx`, `openai` stay at warning level)
 - stack traces are included for runtime failures
 
-This gives actionable diagnostics without flooding output with low-level parser internals.
+This keeps diagnostics actionable without flooding output with low-level parser internals.
 
 ## Skills Modes
 
@@ -95,7 +96,7 @@ Default behavior is offline-safe and deterministic.
 
 ## Environment Configuration
 
-Environment loading is compatible with both shell exports and `.env`:
+Environment loading supports both shell exports and `.env` files:
 - exported variables take precedence
 - `.env` fills missing variables only
 
